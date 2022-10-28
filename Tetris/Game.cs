@@ -20,22 +20,22 @@ public class Game
 	public static int Width => 10;
 	public static int Height => 16;
 
-	private bool IsValidShapePosition(Shape newShape)
+	private bool IsValidShapePosition(Shape shape)
 	{
-		for (var j = 0; j < newShape.Height; j++)
+		for (var j = 0; j < shape.Height; j++)
 		{
-			for (var i = 0; i < newShape.Width; i++)
+			for (var i = 0; i < shape.Width; i++)
 			{
-				if (!newShape.Layout[i, j])
+				if (!shape.Layout[i, j])
 				{
 					continue;
 				}
 
-				if (newShape.Position.X + i < 0
-					|| newShape.Position.X + i >= Width
-					|| newShape.Position.Y + j < 0
-					|| newShape.Position.Y + j >= Height
-					|| Blocks[newShape.Position.X + i, newShape.Position.Y + j] != null)
+				if (shape.Position.X + i < 0
+					|| shape.Position.X + i >= Width
+					|| shape.Position.Y + j < 0
+					|| shape.Position.Y + j >= Height
+					|| Blocks[shape.Position.X + i, shape.Position.Y + j] != null)
 				{
 					return false;
 				}
@@ -61,52 +61,24 @@ public class Game
 
 	private void RemoveFullRows()
 	{
-		for (var j = 0; j < Height; j++)
-		{
-			if (Enumerable.Range(0, Width).Any(i => Blocks[i, j] == null))
-			{
-				continue;
-			}
 
-			for (var i = 0; i < Width; i++)
-			{
-				Blocks[i, j] = null;
-			}
-		}
+		//TODO 1: iterate over all rows; clear row if each column has content
+		
 	}
 
 	private void CloseVerticalGaps()
 	{
-		var currentEmptyRowCount = 0;
 		
-		for (var j = Height-1; j >= 0; j--)
-		{
-			if (Enumerable.Range(0, Width).All(i => Blocks[i, j] == null))
-			{
-				currentEmptyRowCount++;
-				continue;
-			}
-
-			if (currentEmptyRowCount == 0)
-			{
-				continue;
-			}
-
-			for (var jj = j; jj >= 0; jj--)
-			{
-				SwapRows(jj, jj+currentEmptyRowCount);
-			}
-
-			currentEmptyRowCount = 0;
-		}
+		//TODO 3: determine empty rows and let all (non-empty) rows above drop to fill the gaps
+		//TODO 3: hint: use SwapRows() method to swap current non-empty row with empty row
+		
 	}
 
-	private void SwapRows(int j1, int j2)
+	private void SwapRows(int row1, int row2)
 	{
-		for (var i = 0; i < Width; i++)
-		{
-			(Blocks[i, j1], Blocks[i, j2]) = (Blocks[i, j2], Blocks[i, j1]);
-		}
+		
+		//TODO 2: iterate over all columns and swap content of row1 with row2
+		
 	}
 
 	public void CreateNewShape()
